@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>SwapJoy</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top custom-nav">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center fw-bold" href="index.html">
+            <img src="img/logo.png" class="logo-nav me-2">
+            SwapJoy
+        </a>
+
+        <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#menu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="menu">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="#crear">Crear</a></li>
+                <li class="nav-item"><a class="nav-link" href="#participantes">Participantes</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<!-- CONTENIDO -->
+<main class="flex-fill d-flex align-items-center">
+    <section class="py-5 w-100">
+        <div class="container pt-5 mt-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 col-md-10">
+
+                    <div class="card-glass p-5">
+
+                        <h2 class="fw-bold text-center mb-4">
+                            Sorteo del Intercambio
+                        </h2>
+
+                        <!-- RESUMEN DEL EVENTO -->
+                        <div class="mb-4 p-3 rounded bg-light text-dark">
+                            <h5 class="fw-bold mb-3 text-center">
+                                Resumen del Intercambio
+                            </h5>
+
+                            <p class="mb-1">
+                                <strong>Fecha:</strong>
+                                <span id="mostrarFecha">-</span>
+                            </p>
+
+                            <p class="mb-1">
+                                <strong>Presupuesto:</strong>
+                                $<span id="mostrarPresupuesto">-</span> MXN
+                            </p>
+
+                            <p class="mb-0">
+                                <strong>Tipo de evento:</strong>
+                                <span id="mostrarTipo">-</span>
+                            </p>
+                        </div>
+
+                        <!-- BOTÓN SORTEO -->
+                        <div class="text-center mb-4">
+                            <button onclick="realizarSorteo()"
+                                    class="btn btn-gradient px-5 boton-presion">
+                                Realizar Sorteo 
+                            </button>
+                        </div>
+
+                        <!-- RESULTADOS -->
+                        <div id="resultadoSorteo" class="mt-4">
+                            <!-- Aquí aparecerán los resultados -->
+                        </div>
+
+                        <!-- BOTÓN VOLVER -->
+                        <div class="mt-4 text-center">
+                            <a href="index.html"
+                               class="btn btn-gradient px-4 boton-presion">
+                                Volver al Inicio
+                            </a>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- FOOTER -->
+<footer class="footer-custom text-white text-center py-4">
+    <div class="footer-decoration">
+        <span>S</span>
+        <span>w</span>
+        <span>a</span>
+        <span>p</span>
+        <span>J</span>
+        <span>o</span>
+        <span>y</span>
+    </div>
+    <p class="mb-1">© 2026 SwapJoy · Hecho con Amor</p>
+    <small>Intercambios modernos y divertidos </small>
+    <div class="mt-2">
+        <span class="footer-frase"> Regalos con amor · Intercambios inolvidables</span>
+    </div>
+    <div class="mt-2">
+        <span class="footer-hashtag">#SwapJoy - #IntercambiosFelices</span>
+    </div>
+</footer>
+
+<script src="js/app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
