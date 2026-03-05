@@ -1,4 +1,26 @@
 // -------------------------------------------------------------------------------------------------------------------------
+// MODALES NAVBAR (Nosotras y Tutorial)
+// -------------------------------------------------------------------------------------------------------------------------
+function abrirNosotras() {
+    document.getElementById("modalNosotras").classList.add("activo");
+}
+
+function abrirTutorial() {
+    document.getElementById("modalTutorial").classList.add("activo");
+}
+
+function cerrarModal(id) {
+    document.getElementById(id).classList.remove("activo");
+}
+
+//cierra si hacen clic en el fondo oscuro (fuera del cuadro) por si no quieren usar el boton de cerrado
+function cerrarModalFondo(event, id) {
+    if (event.target.id === id) {
+        cerrarModal(id);
+    }
+}
+
+// -------------------------------------------------------------------------------------------------------------------------
 // ORGANIZADOR
 // -------------------------------------------------------------------------------------------------------------------------
 function guardarOrganizador() {
@@ -117,7 +139,7 @@ function renderizarLista(participantes) {
     lista.innerHTML = participantes.map((nombre, index) => `
     <div class="d-flex justify-content-between align-items-center mb-2 px-3 py-2 rounded"
         style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);">
-        <span> ${nombre} 🎁</span>
+        <span> ${nombre} </span>
         <button onclick="eliminarParticipante(${index})"
             class="btn btn-sm btn-danger boton-presion">
         ✕
@@ -131,7 +153,7 @@ function continuarParticipantes() {
     const participantes = swapjoy.participantes || [];
 
     if (participantes.length < 2) {
-    alert(" Necesitas agregar al menos 2 participantes para continuar.");
+    alert("Necesitas agregar al menos 2 participantes para continuar.");
     return;
     }
 
@@ -153,6 +175,32 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 });
+
+// PREGUNTA EXCLUSIONES----------------------------------------------------------------------------------------------------------------
+//aqui guardamos lo que puso en local, todo mensaje se manda directo a consola
+function sinExclusiones() {
+  const swapjoy = JSON.parse(localStorage.getItem("swapjoy")) || {};
+  swapjoy.exclusiones = {};
+  localStorage.setItem("swapjoy", JSON.stringify(swapjoy));
+
+  console.log("Sin exclusiones");
+
+  alert("Sin exclusiones.\n\n¡Todos pueden regalarle a cualquier persona!");
+
+  window.location.href = "evento.html";
+}
+
+function irAExclusiones() {
+  const swapjoy = JSON.parse(localStorage.getItem("swapjoy")) || {};
+  swapjoy.exclusiones = {};
+  localStorage.setItem("swapjoy", JSON.stringify(swapjoy));
+
+  console.log("Usuario desea realizar exclusiones");
+
+  alert("Se aplicarán exclusiones.");
+
+  window.location.href = "exclusiones.html";
+}
 
 // -----------------------------------------------------------------------------------------------------------------------------------
 // EXCLUSIONES (incluye al HTML de prgunta exluciones y al de exclusiones )
@@ -206,7 +254,7 @@ function mostrarOpcionesExclusion() {
                   value="${nombre}"
                   ${yaExcluidos.includes(nombre) ? "checked" : ""}>
             <label class="form-check-label" for="excl_${nombre}">
-              🚫 ${nombre}
+               ${nombre}
             </label>
           </div>
         </div>
@@ -215,6 +263,17 @@ function mostrarOpcionesExclusion() {
   `;
 }
 
+
+//Inicializar al cargar la pagina
+document.addEventListener("DOMContentLoaded", () => {
+  if (document.getElementById("personaSeleccionada")) {
+    cargarSelectExclusiones();
+  }
+});
+
+//--------------------------------------------------------------------------------------------------------------------
+//EXCLUSIONES
+//--------------------------------------------------------------------------------------------------------------------
 function guardarExclusiones() {
   const swapjoy = JSON.parse(localStorage.getItem("swapjoy")) || {};
   const participantes = swapjoy.participantes || [];
@@ -234,7 +293,7 @@ function guardarExclusiones() {
   swapjoy.exclusiones = exclusiones;
   localStorage.setItem("swapjoy", JSON.stringify(swapjoy));
 
-  console.log(" Exclusiones guardadas:", exclusiones);
+  console.log(" Exclusiones guardadas:", swapjoy.exclusiones);
 
   //resumen en alert
   if (seleccionados.length === 0) {
@@ -242,49 +301,333 @@ function guardarExclusiones() {
   } else {
     alert(` Exclusiones de ${nombreSeleccionado} guardadas:\n\n No puede tocar a: ${seleccionados.join(", ")}`);
   }
+}
 
+function finalizarExclusiones() {
   window.location.href = "evento.html";
 }
 
-//Inicializar al cargar la pagina
-document.addEventListener("DOMContentLoaded", () => {
-  if (document.getElementById("personaSeleccionada")) {
-    cargarSelectExclusiones();
+//----------------------------------------------------------------------------------------------------------------
+//TIPO DE EVENTO Y NOMBRE DE EVENTO
+//----------------------------------------------------------------------------------------------------------------
+//Si desea seleccionar la opción de Otro...
+function mostrarInputOtro() {
+  const select = document.getElementById("tipoRegalo");
+  const container = document.getElementById("inputOtroContainer");
+
+  if (select.value === "otro") {
+    container.classList.remove("d-none");
+  } else {
+    container.classList.add("d-none");
   }
+}
+
+//Guardar la información del evento
+function guardarEvento(){
+  const tipoSelect = document.getElementById("tipoRegalo");
+  const nombreEventoInput = document.getElementById("nombreEvento");
+  const eventoPersonalizado = document.getElementById("eventoPersonalizado");
+
+  let tipoEvento = tipoSelect.value;
+  let nombreEvento = nombreEventoInput.value.trim();
+
+  if (!tipoEvento) {
+    alert("Selecciona un tipo de evento.");
+    return;
+  }
+
+  // Si eligió Otro
+  if (tipoEvento === "otro") {
+    if (!eventoPersonalizado.value.trim()) {
+      alert("Escribe el tipo de evento personalizado.");
+      return;
+    }
+    tipoEvento = eventoPersonalizado.value.trim();
+  }
+
+  if (!nombreEvento) {
+    alert("Escribe un nombre para el intercambio.");
+    return;
+  }
+
+  const swapjoy = JSON.parse(localStorage.getItem("swapjoy")) || {};
+
+  swapjoy.evento = {
+    tipo: tipoEvento,
+    nombre: nombreEvento
+  };
+
+  localStorage.setItem("swapjoy", JSON.stringify(swapjoy));
+  console.log("Evento guardado:", swapjoy.evento);
+  window.location.href = "fechaPresupuesto.html";
+}
+
+//Si se regresa a otra página, guardar lo que ya se tenía
+document.addEventListener("DOMContentLoaded", () => {
+
+  if (!document.getElementById("tipoRegalo")) return;
+
+  const swapjoy = JSON.parse(localStorage.getItem("swapjoy")) || {};
+
+  if (!swapjoy.evento) return;
+
+  const tipoSelect = document.getElementById("tipoRegalo");
+  const nombreEventoInput = document.getElementById("nombreEvento");
+  const eventoPersonalizado = document.getElementById("eventoPersonalizado");
+  const container = document.getElementById("inputOtroContainer");
+
+  const tipoGuardado = swapjoy.evento.tipo;
+  const nombreGuardado = swapjoy.evento.nombre;
+
+  nombreEventoInput.value = nombreGuardado;
+
+  // Verificar si el tipo está dentro de las opciones del select
+  const opciones = Array.from(tipoSelect.options).map(opt => opt.value);
+
+  if (opciones.includes(tipoGuardado)) {
+    tipoSelect.value = tipoGuardado;
+  } else {
+    // Si no está en la lista, es un "Otro"
+    tipoSelect.value = "otro";
+    container.classList.remove("d-none");
+    eventoPersonalizado.value = tipoGuardado;
+  }
+
 });
 
-// PREGUNTA EXCLUSIONES----------------------------------------------------------------------------------------------------------------
-//aqui guardamos lo que puso en local, todo mensaje se manda directo a consola
-function sinExclusiones() {
+
+//----------------------------------------------------------------------------------------------------------------
+//FECHA Y PRESUPUESTO
+//----------------------------------------------------------------------------------------------------------------
+//Un input si selecciona la opción de otro
+function mostrarInputPresupuesto() {
+  //select donde el usuario elige el presupuesto
+  const select = document.getElementById("presupuestoSelect");
+  //input
+  const container = document.getElementById("inputPresupuestoContainer");
+  //si el usuario selecciona otro
+  if (select.value === "otro") {
+    //se quita la clase d-none para mostrar el input
+    container.classList.remove("d-none");
+  } else {
+    //si elige otra opción que ya estaba así se deja
+    container.classList.add("d-none");
+  }
+}
+
+//Guardar fecha y presupyesto
+function guardarFechaPresupuesto() {
+  //se obtiene el valor de la fecha
+  const fechaInput = document.getElementById("fechaEvento");
+  //se obtiene el select del presupuesto
+  const presupuestoSelect = document.getElementById("presupuestoSelect");
+  //input del presupuesto deseado
+  const presupuestoPersonalizado = document.getElementById("presupuestoPersonalizado");
+  //se guardan los valores en las variables
+  let fecha = fechaInput.value;
+  let presupuesto = presupuestoSelect.value;
+
+  //Validar que si haya fecha seleccionada
+  if (!fecha) {
+    alert("Selecciona una fecha para el intercambio.");
+    return;
+  }
+  //validar presupuesto seleccionado y que no este vacío
+  if (!presupuesto) {
+    alert("Selecciona un presupuesto.");
+    return;
+  }
+  //Si eligió "Otro"
+  if (presupuesto === "otro") {
+    if (!presupuestoPersonalizado.value || presupuestoPersonalizado.value <= 0) {
+      alert("Escribe una cantidad válida.");
+      return;
+    }
+    //se reemplaza el valor del presupuesto por el personalizado
+    presupuesto = presupuestoPersonalizado.value;
+  }
+  //se recupera lo que hay en swapjoy para el localstorage
   const swapjoy = JSON.parse(localStorage.getItem("swapjoy")) || {};
-  swapjoy.exclusiones = {};
+  //sección detalles se actualiza o se crea
+  swapjoy.detalles = {
+    fecha: fecha,
+    presupuesto: presupuesto
+  };
+  //se guarda nuevamente todo el objeto el localstorage
+  localStorage.setItem("swapjoy", JSON.stringify(swapjoy));
+  //se muestra en consola
+  console.log("Fecha y presupuesto guardados:", swapjoy.detalles);
+  alert("Fecha y presupuesto guardados correctamente.");
+  window.location.href = "sorteo.html";
+}
+
+//Si se regresa de página que se guarde lo seleccionado anteriormente
+document.addEventListener("DOMContentLoaded", () => {
+  //si esta pagina no tiene el input de fecha no hace nada
+  if (!document.getElementById("fechaEvento")) return;
+  //se recuperan datos guardados
+  const swapjoy = JSON.parse(localStorage.getItem("swapjoy")) || {};
+  if (!swapjoy.detalles) return;
+  //se obtienen referencias a los elementos
+  const fechaInput = document.getElementById("fechaEvento");
+  const presupuestoSelect = document.getElementById("presupuestoSelect");
+  const presupuestoPersonalizado = document.getElementById("presupuestoPersonalizado");
+  const container = document.getElementById("inputPresupuestoContainer");
+  //se rellena fecha guardada
+  fechaInput.value = swapjoy.detalles.fecha;
+  //opciones disponibles del select
+  const opciones = Array.from(presupuestoSelect.options).map(opt => opt.value);
+  //si el rpesupuesto es de los que ya estaban se selecciona directamente
+  if (opciones.includes(swapjoy.detalles.presupuesto)) {
+    presupuestoSelect.value = swapjoy.detalles.presupuesto;
+  } else {
+    //si no está ahí es porque es personalizado
+    presupuestoSelect.value = "otro";
+    //se muestra el input
+    container.classList.remove("d-none");
+    //se coloca el valor que se desea
+    presupuestoPersonalizado.value = swapjoy.detalles.presupuesto;
+  }
+
+});
+
+
+////----------------------------------------------------------------------------------------------------------------
+//SORTEO
+////----------------------------------------------------------------------------------------------------------------
+//Resumen del sorteo
+document.addEventListener("DOMContentLoaded", () => {
+  //Si no estamos en sorteo.html, no hacer nada
+  if (!document.getElementById("mostrarFecha")) return;
+  const swapjoy = JSON.parse(localStorage.getItem("swapjoy")) || {};
+  //Organizador
+  document.getElementById("mostrarOrganizador").textContent =
+    swapjoy.organizador || "-";
+  //nombre del evento
+  document.getElementById("mostrarNombreEvento").textContent =
+    swapjoy.evento?.nombre || "-";
+  //Tipo de evento
+  document.getElementById("mostrarTipo").textContent =
+    swapjoy.evento?.tipo || "-";
+  //Fecha
+  document.getElementById("mostrarFecha").textContent =
+    swapjoy.detalles?.fecha || "-";
+  //Presupuesto
+  document.getElementById("mostrarPresupuesto").textContent =
+    swapjoy.detalles?.presupuesto || "-";
+  //exclusiones
+  if (swapjoy.exclusiones && Object.keys(swapjoy.exclusiones).length > 0) {
+      let texto = "";
+      for (let persona in swapjoy.exclusiones) {
+          if (swapjoy.exclusiones[persona].length > 0) {
+            texto += `${persona} no puede tocar a: ${swapjoy.exclusiones[persona].join(", ")} | `;
+          }
+      }
+
+    document.getElementById("mostrarExclusiones").textContent = texto || "Sin exclusiones";
+
+  } else {
+    document.getElementById("mostrarExclusiones").textContent =
+      "Sin exclusiones";
+  }
+
+
+  //desactivar botón si ya hay sorteo
+  if (swapjoy.resultados) {
+    const boton = document.querySelector("button[onclick='realizarSorteo()']");
+    boton.disabled = true;
+    boton.textContent = "Sorteo ya realizado";
+    mostrarResultados(swapjoy.resultados);
+  }
+
+});
+
+//Sorteo con las exlusiones
+function realizarSorteo() {
+
+  const swapjoy = JSON.parse(localStorage.getItem("swapjoy")) || {};
+  //Comprobar si ya se hizo antes para que ya no se pueda hacer
+  if (swapjoy.resultados) {
+    alert("El sorteo ya fue realizado.\n\nNo se puede repetir.");
+    //deshabilitar el botón
+    document.querySelector("button[onclick='realizarSorteo()']").disabled = true;
+    mostrarResultados(swapjoy.resultados);
+    return;
+  }
+  
+  const participantes = swapjoy.participantes || [];
+  const exclusiones = swapjoy.exclusiones || {};
+
+  if (participantes.length < 2) {
+    alert("Se necesitan al menos 2 participantes.");
+    return;
+  }
+
+  let intentos = 0;
+  let asignaciones = {};
+  let valido = false;
+
+  while (!valido && intentos < 500) {
+
+    intentos++;
+    valido = true;
+    asignaciones = {};
+
+    let disponibles = [...participantes];
+
+    for (let persona of participantes) {
+
+      //Filtrar posibles personas válidas
+      let posibles = disponibles.filter(p => {
+
+        //No puede regalarse a sí mismo
+        if (p === persona) return false;
+
+        //Si tiene exclusiones
+        if (exclusiones[persona]) {
+          return !exclusiones[persona].includes(p);
+        }
+
+        return true;
+      });
+
+      if (posibles.length === 0) {
+        valido = false;
+        break;
+      }
+
+      let elegido = posibles[Math.floor(Math.random() * posibles.length)];
+
+      asignaciones[persona] = elegido;
+
+      //Eliminar elegido de disponibles
+      disponibles = disponibles.filter(p => p !== elegido);
+    }
+  }
+
+  if (!valido) {
+    alert("No se pudo realizar el sorteo con las exclusiones actuales.");
+    return;
+  }
+
+  swapjoy.resultados = asignaciones;
   localStorage.setItem("swapjoy", JSON.stringify(swapjoy));
 
-  console.log("Sin exclusiones, exclusiones guardadas como vacio");
+  console.log("Resultados del sorteo:", asignaciones);
 
-  alert("Sin exclusiones.\n\n¡Todos pueden regalarle a cualquier persona!");
-
-  window.location.href = "evento.html";
+  mostrarResultados(asignaciones);
 }
 
-// -------------------------------------------------------------------------------------------------------------------------
-// MODALES NAVBAR (Nosotras y Tutorial)
-// -------------------------------------------------------------------------------------------------------------------------
-function abrirNosotras() {
-    document.getElementById("modalNosotras").classList.add("activo");
-}
-
-function abrirTutorial() {
-    document.getElementById("modalTutorial").classList.add("activo");
-}
-
-function cerrarModal(id) {
-    document.getElementById(id).classList.remove("activo");
-}
-
-//cierra si hacen clic en el fondo oscuro (fuera del cuadro) por si no quieren usar el boton de cerrado
-function cerrarModalFondo(event, id) {
-    if (event.target.id === id) {
-        cerrarModal(id);
-    }
+//Mostrarlo en pantalla
+function mostrarResultados(asignaciones) {
+  const contenedor = document.getElementById("resultadoSorteo");
+  contenedor.innerHTML = "";
+  for (let persona in asignaciones) {
+    contenedor.innerHTML += `
+      <div class="p-2 border rounded mb-2 bg-light text-dark">
+        <strong>${persona}</strong> le regala a 
+        <strong>${asignaciones[persona]}</strong>
+      </div>
+    `;
+  }
 }
