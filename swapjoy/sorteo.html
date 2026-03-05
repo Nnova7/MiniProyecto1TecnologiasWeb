@@ -63,78 +63,73 @@
         <div class="container pt-5 mt-5">
             <div class="row justify-content-center">
                 <div class="col-lg-8 col-md-10">
-
                     <div class="card-glass p-5">
-
                         <h2 class="fw-bold text-center mb-4">
                             Sorteo del Intercambio
                         </h2>
 
-<!-- RESUMEN DEL EVENTO -->
-<div class="resumen-evento mb-4 p-4 rounded">
-    <h5 class="fw-bold mb-3 text-center resumen-titulo">
-        Resumen del Intercambio
-    </h5>
-    <div class="row g-2">
-        <div class="col-6">
-            <div class="resumen-item">
-                <span class="resumen-label">Organizador</span>
-                <span id="mostrarOrganizador" class="resumen-valor">-</span>
-            </div>
-        </div>
-        <div class="col-6">
-            <div class="resumen-item">
-                <span class="resumen-label">Celebración</span>
-                <span id="mostrarNombreEvento" class="resumen-valor">-</span>
-            </div>
-        </div>
-        <div class="col-6">
-            <div class="resumen-item">
-                <span class="resumen-label">Tipo</span>
-                <span id="mostrarTipo" class="resumen-valor">-</span>
-            </div>
-        </div>
-        <div class="col-6">
-            <div class="resumen-item">
-                <span class="resumen-label">Fecha</span>
-                <span id="mostrarFecha" class="resumen-valor">-</span>
-            </div>
-        </div>
-        <div class="col-6">
-            <div class="resumen-item">
-                <span class="resumen-label">Presupuesto</span>
-                <span id="mostrarPresupuesto" class="resumen-valor">-</span>
-            </div>
-        </div>
-        <div class="col-12">
-            <div class="resumen-item">
-                <span class="resumen-label">🚫 Exclusiones</span>
-                <span id="mostrarExclusiones" class="resumen-valor">-</span>
-            </div>
-        </div>
-    </div>
-</div>
+                        <!-- RESUMEN DEL EVENTO -->
+                        <div class="resumen-evento mb-4 p-4 rounded">
+                            <h5 class="fw-bold mb-3 text-center resumen-titulo">
+                                Resumen del Intercambio
+                            </h5>
+                            <div class="row g-2">
+                                <div class="col-6">
+                                    <div class="resumen-item">
+                                        <span class="resumen-label">Organizador</span>
+                                        <span id="mostrarOrganizador" class="resumen-valor">-</span>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="resumen-item">
+                                        <span class="resumen-label">Celebración</span>
+                                        <span id="mostrarNombreEvento" class="resumen-valor">-</span>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="resumen-item">
+                                        <span class="resumen-label">Tipo</span>
+                                        <span id="mostrarTipo" class="resumen-valor">-</span>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="resumen-item">
+                                        <span class="resumen-label">Fecha</span>
+                                        <span id="mostrarFecha" class="resumen-valor">-</span>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="resumen-item">
+                                        <span class="resumen-label">Presupuesto</span>
+                                        <span id="mostrarPresupuesto" class="resumen-valor">-</span>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="resumen-item">
+                                        <span class="resumen-label">Exclusiones</span>
+                                        <span id="mostrarExclusiones" class="resumen-valor">-</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-<!-- BOTÓN SORTEO -->
-<div class="text-center mb-4">
-    <button onclick="realizarSorteo()" class="btn btn-gradient px-5 boton-presion">
-        Realizar Sorteo
-    </button>
-</div>
+                        <!-- BOTÓN SORTEO -->
+                        <div class="text-center mb-4">
+                            <button id="btnSorteo" onclick="realizarSorteo()" class="btn btn-gradient px-5 boton-presion">
+                                Realizar Sorteo
+                            </button>
+                        </div>
 
-<!-- RESULTADOS -->
-<div id="resultadoSorteo" class="mt-4"></div>
+                        <!-- RESULTADOS -->
+                        <div id="resultadoSorteo" class="mt-4"></div>
 
                         <!-- BOTÓN VOLVER -->
                         <div class="mt-4 text-center">
-                            <a href="index.html"
-                               class="btn btn-gradient px-4 boton-presion">
+                            <a href="#" onclick="confirmarReinicio()" class="btn btn-gradient px-4 boton-presion">
                                 Volver al Inicio
                             </a>
                         </div>
-
                     </div>
-
                 </div>
             </div>
         </div>

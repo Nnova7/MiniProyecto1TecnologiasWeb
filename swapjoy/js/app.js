@@ -496,7 +496,8 @@ document.addEventListener("DOMContentLoaded", () => {
 // SORTEO
 ////----------------------------------------------------------------------------------------------------------------
 document.addEventListener("DOMContentLoaded", () => {
-  if (!document.getElementById("mostrarFecha")) return;
+  const contenedor = document.getElementById("resultadoSorteo");
+  if (!contenedor) return;
 
   const swapjoy = JSON.parse(localStorage.getItem("swapjoy")) || {};
 
@@ -537,11 +538,12 @@ function realizarSorteo() {
   const swapjoy = JSON.parse(localStorage.getItem("swapjoy")) || {};
 
   if (swapjoy.resultados) {
-    alert("El sorteo ya fue realizado.\n\nNo se puede repetir.");
-    const boton = document.querySelector("button[onclick='realizarSorteo()']");
-    if (boton) boton.disabled = true;
+    const boton = document.getElementById("btnSorteo");
+    if (boton){
+      boton.disabled = true;
+      boton.textContent = "Sorteo ya realizado";
+    } 
     mostrarResultados(swapjoy.resultados);
-    return;
   }
 
   const participantes = swapjoy.participantes || [];
@@ -591,14 +593,14 @@ function realizarSorteo() {
 
   console.log("Resultados del sorteo:", asignaciones);
 
-  // Deshabilitar botón
-  const boton = document.querySelector("button[onclick='realizarSorteo()']");
+  //Deshabilitar botón
+  const boton = document.getElementById("btnSorteo");
   if (boton) {
     boton.disabled = true;
     boton.textContent = "Sorteo ya realizado";
   }
 
-  // Alert con resumen antes de mostrar
+  //Alert con resumen antes de mostrar
   const resumen = Object.entries(asignaciones)
     .map(([p, r]) => `${p} → ${r}`)
     .join("\n");
@@ -607,7 +609,7 @@ function realizarSorteo() {
   mostrarResultados(asignaciones);
 }
 
-// ── Mostrar tarjetas ──
+//Mostrar tarjetas 
 function mostrarResultados(asignaciones) {
   const contenedor = document.getElementById("resultadoSorteo");
   if (!contenedor) return;
@@ -630,4 +632,16 @@ function mostrarResultados(asignaciones) {
       `).join("")}
     </div>
   `;
+}
+
+//Al momento de dar click en volvera a inicio si así lo desea se borrará lo anterior
+function confirmarReinicio(){
+  let confirmar = confirm("¿Deseas reiniciar el intercambio?\n\nSe borrarán todos los datos del sorteo.");
+  if(confirmar){
+      localStorage.removeItem("swapjoy");
+      return true; //se irá al inicio
+  }else{
+      return false; //se queda ahí
+  }
+
 }
