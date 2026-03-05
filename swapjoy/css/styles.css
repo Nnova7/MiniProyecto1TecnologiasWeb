@@ -493,6 +493,90 @@
         to { opacity: 1; }
     }
 
+/* ---------------------------------------------------------
+    MODALES SWAPJOY (Limpios y sin fondos)
+--------------------------------------------------------- */
+.swapjoy-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75); /* Un poco más oscuro para que resalte la imagen */
+    backdrop-filter: blur(4px);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.3s ease;
+}
+
+.swapjoy-modal-overlay.activo {
+    display: flex;
+}
+
+/* Eliminamos el fondo, bordes y sombras del contenedor */
+.swapjoy-modal-box {
+    position: relative;
+    max-width: 1000px;
+    width: 100%;
+    background: transparent !important; /* Quita el fondo blanco/gris */
+    border: none !important;           /* Quita bordes */
+    box-shadow: none !important;        /* Quita sombras del cuadro */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Ajuste del botón para que esté pegado a la esquina superior derecha de la imagen */
+.swapjoy-modal-close {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: linear-gradient(45deg, #ff416c, #ff4b2b);
+    border: none;
+    color: white;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    z-index: 100;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.swapjoy-modal-close:hover {
+    transform: scale(1.2);
+}
+
+/* Tutorial */
+.tutorial-flotante {
+    width: 100%;
+    max-height: 80vh; /* Para que no se salga de la pantalla */
+    object-fit: contain;
+    animation: flotarTutorial 3s ease-in-out infinite;
+    display: block;
+}
+
+/* Nosotras */
+.nosotras-entrada {
+    animation: nosotrasAppear 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    width: 100%;
+    max-height: 80vh;
+    object-fit: contain;
+    display: block;
+}
+
+@keyframes flotarTutorial {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-20px); }
+}
+
+@keyframes nosotrasAppear {
+    0% { opacity: 0; transform: scale(0.7); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+
+
     /* RESPONSIVE */
     @media (max-width: 768px) {
         .titulo-animado {
@@ -519,4 +603,4 @@
         .titulo-formulario {
             font-size: 1.5rem;
         }
-    }   
+    }  

@@ -27,12 +27,31 @@
 
         <div class="collapse navbar-collapse" id="menu">
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="#crear">Crear</a></li>
-                <li class="nav-item"><a class="nav-link" href="#participantes">Participantes</a></li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="abrirNosotras()">Nosotras</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="abrirTutorial()">Tutorial</a>
+                </li>
             </ul>
         </div>
     </div>
 </nav>
+
+<!-- MODALES -->
+<div id="modalNosotras" class="swapjoy-modal-overlay" onclick="cerrarModalFondo(event, 'modalNosotras')">
+    <div class="swapjoy-modal-box">
+        <button onclick="cerrarModal('modalNosotras')" class="swapjoy-modal-close">✕</button>
+        <img src="img/nosotras.png" class="nosotras-entrada">
+    </div>
+</div>
+
+<div id="modalTutorial" class="swapjoy-modal-overlay" onclick="cerrarModalFondo(event, 'modalTutorial')">
+    <div class="swapjoy-modal-box">
+        <button onclick="cerrarModal('modalTutorial')" class="swapjoy-modal-close">✕</button>
+        <img src="img/tutorial.png" class="tutorial-flotante">
+    </div>
+</div>
 
 <!-- Contenido -->
 <main class="flex-fill d-flex align-items-center">
@@ -53,9 +72,9 @@
 
                         <div class="row">
                             <div class="col-6">
-                                <a href="exclusiones.html" class="btn btn-gradient w-100 boton-presion">
-                                    Sí
-                                </a>
+                                <button onclick="sinExclusiones()" class="btn btn-gradient w-100 boton-presion">
+                                    No
+                                </button>
                             </div>
 
                             <div class="col-6">
