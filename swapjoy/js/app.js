@@ -96,6 +96,10 @@ function agregarParticipante() {
 
     participantes.push(nombre);
     swapjoy.participantes = participantes;
+
+    //BORRAR resultados anteriores si existían
+    delete swapjoy.resultados;
+
     localStorage.setItem("swapjoy", JSON.stringify(swapjoy));
 
     console.log("Participante agregado:", nombre, "| Total:", participantes);
@@ -118,6 +122,10 @@ function eliminarParticipante(index) {
 
     participantes.splice(index, 1);
     swapjoy.participantes = participantes;
+
+    //BORRAR resultados anteriores si existían
+    delete swapjoy.resultados;
+    
     localStorage.setItem("swapjoy", JSON.stringify(swapjoy));
 
     console.log("Participante eliminado:", eliminado, "| Lista actual:", participantes);
