@@ -1,7 +1,6 @@
 // -------------------------------------------------------------------------------------------------------------------------
 // ORGANIZADOR
 // -------------------------------------------------------------------------------------------------------------------------
-
 function guardarOrganizador() {
     const nombre = document.getElementById("nombreOrganizador").value.trim();
     const error = document.getElementById("error");
@@ -43,7 +42,6 @@ function guardarOrganizador() {
 // -------------------------------------------------------------------------------------------------------------------------
 // PARTICIPANTES
 // -------------------------------------------------------------------------------------------------------------------------
-
 function cargarParticipantes() {
     const swapjoy = JSON.parse(localStorage.getItem("swapjoy")) || {};
     const participantes = swapjoy.participantes || [];
@@ -159,7 +157,6 @@ document.addEventListener("DOMContentLoaded", () => {
 // -----------------------------------------------------------------------------------------------------------------------------------
 // EXCLUSIONES (incluye al HTML de prgunta exluciones y al de exclusiones )
 // ------------------------------------------------------------------------------------------------------------------------------------
-
 function cargarSelectExclusiones() {
   const swapjoy = JSON.parse(localStorage.getItem("swapjoy")) || {};
   const participantes = swapjoy.participantes || [];
@@ -257,6 +254,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // PREGUNTA EXCLUSIONES----------------------------------------------------------------------------------------------------------------
+//aqui guardamos lo que puso en local, todo mensaje se manda directo a consola
 function sinExclusiones() {
   const swapjoy = JSON.parse(localStorage.getItem("swapjoy")) || {};
   swapjoy.exclusiones = {};
@@ -272,7 +270,6 @@ function sinExclusiones() {
 // -------------------------------------------------------------------------------------------------------------------------
 // MODALES NAVBAR (Nosotras y Tutorial)
 // -------------------------------------------------------------------------------------------------------------------------
-
 function abrirNosotras() {
     document.getElementById("modalNosotras").classList.add("activo");
 }
@@ -285,7 +282,7 @@ function cerrarModal(id) {
     document.getElementById(id).classList.remove("activo");
 }
 
-// Cierra si hacen clic en el fondo oscuro (fuera del cuadro)
+//cierra si hacen clic en el fondo oscuro (fuera del cuadro) por si no quieren usar el boton de cerrado
 function cerrarModalFondo(event, id) {
     if (event.target.id === id) {
         cerrarModal(id);
