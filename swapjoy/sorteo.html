@@ -70,54 +70,60 @@
                             Sorteo del Intercambio
                         </h2>
 
-                        <!-- RESUMEN DEL EVENTO -->
-                        <div class="mb-4 p-3 rounded bg-light text-dark">
-                            <h5 class="fw-bold mb-3 text-center">
-                                Resumen del Intercambio
-                            </h5>
+<!-- RESUMEN DEL EVENTO -->
+<div class="resumen-evento mb-4 p-4 rounded">
+    <h5 class="fw-bold mb-3 text-center resumen-titulo">
+        Resumen del Intercambio
+    </h5>
+    <div class="row g-2">
+        <div class="col-6">
+            <div class="resumen-item">
+                <span class="resumen-label">Organizador</span>
+                <span id="mostrarOrganizador" class="resumen-valor">-</span>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="resumen-item">
+                <span class="resumen-label">Celebración</span>
+                <span id="mostrarNombreEvento" class="resumen-valor">-</span>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="resumen-item">
+                <span class="resumen-label">Tipo</span>
+                <span id="mostrarTipo" class="resumen-valor">-</span>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="resumen-item">
+                <span class="resumen-label">Fecha</span>
+                <span id="mostrarFecha" class="resumen-valor">-</span>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="resumen-item">
+                <span class="resumen-label">Presupuesto</span>
+                <span id="mostrarPresupuesto" class="resumen-valor">-</span>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="resumen-item">
+                <span class="resumen-label">🚫 Exclusiones</span>
+                <span id="mostrarExclusiones" class="resumen-valor">-</span>
+            </div>
+        </div>
+    </div>
+</div>
 
-                            <p class="mb-1">
-                                <strong>Nombre del organizador:</strong>
-                                <span id="mostrarOrganizador">-</span>
-                            </p>
+<!-- BOTÓN SORTEO -->
+<div class="text-center mb-4">
+    <button onclick="realizarSorteo()" class="btn btn-gradient px-5 boton-presion">
+        🎲 Realizar Sorteo
+    </button>
+</div>
 
-                            <p class="mb-1">
-                                <strong>Nombre de la celebración:</strong>
-                                <span id="mostrarNombreEvento">-</span>
-                            </p>
-
-                            <p class="mb-0">
-                                <strong>Tipo de evento:</strong>
-                                <span id="mostrarTipo">-</span>
-                            </p>
-
-                            <p class="mb-1">
-                                <strong>Fecha:</strong>
-                                <span id="mostrarFecha">-</span>
-                            </p>
-
-                            <p class="mb-1">
-                                <strong>Presupuesto:</strong>
-                                $<span id="mostrarPresupuesto">-</span> MXN
-                            </p>
-
-                            <p class="mb-1">
-                                <strong>Exlusiones:</strong>
-                                <span id="mostrarExclusiones">-</span>
-                            </p>
-                        </div>
-
-                        <!-- BOTÓN SORTEO -->
-                        <div class="text-center mb-4">
-                            <button onclick="realizarSorteo()"
-                                    class="btn btn-gradient px-5 boton-presion">
-                                Realizar Sorteo 
-                            </button>
-                        </div>
-
-                        <!-- RESULTADOS -->
-                        <div id="resultadoSorteo" class="mt-4">
-                        </div>
+<!-- RESULTADOS -->
+<div id="resultadoSorteo" class="mt-4"></div>
 
                         <!-- BOTÓN VOLVER -->
                         <div class="mt-4 text-center">

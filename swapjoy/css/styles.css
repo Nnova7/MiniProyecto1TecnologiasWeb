@@ -604,3 +604,175 @@
             font-size: 1.5rem;
         }
     }  
+
+    /* ── RESUMEN DEL INTERCAMBIO ── */
+.resumen-evento {
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.08);
+  backdrop-filter: blur(10px);
+}
+
+.resumen-titulo {
+  background: linear-gradient(45deg, #ffb6c1, #ffe4ec, #ffffff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: brilloSuave 4s ease-in-out infinite;
+  letter-spacing: 1px;
+}
+
+.resumen-item {
+  display: flex;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 10px 14px;
+  transition: background 0.3s ease;
+}
+
+.resumen-item:hover {
+  background: rgba(255, 255, 255, 0.11);
+}
+
+.resumen-label {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  margin-bottom: 3px;
+}
+
+.resumen-valor {
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+/* ── RESUMEN DEL INTERCAMBIO ── */
+.resumen-evento {
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.08);
+  backdrop-filter: blur(10px);
+}
+
+.resumen-titulo {
+  background: linear-gradient(45deg, #ffb6c1, #ffe4ec, #ffffff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: brilloSuave 4s ease-in-out infinite;
+  letter-spacing: 1px;
+}
+
+.resumen-item {
+  display: flex;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 10px 14px;
+  transition: background 0.3s ease;
+}
+
+.resumen-item:hover {
+  background: rgba(255, 255, 255, 0.11);
+}
+
+.resumen-label {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  margin-bottom: 3px;
+}
+
+.resumen-valor {
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+/* ── TARJETAS SORTEO ── */
+.sorteo-card {
+  background: rgba(72, 0, 0, 0.72);
+  border: 1px solid rgba(255, 100, 100, 0.25);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  border-radius: 18px;
+  padding: 24px 16px;
+  text-align: center;
+  transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
+  cursor: default;
+  height: 100%;
+}
+
+.sorteo-card:hover {
+  transform: translateY(-10px) scale(1.04);
+  box-shadow: 
+    0 20px 45px rgba(0, 0, 0, 0.65),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 182, 193, 0.45);
+}
+
+.sorteo-santa {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto 10px;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
+}
+
+.sorteo-regalito {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  display: block;
+  margin: 10px auto 6px;
+  animation: regalito 5s ease-in-out infinite;
+  filter: drop-shadow(0 3px 6px rgba(0,0,0,0.35));
+}
+
+.sorteo-nombre {
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.05rem;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+}
+
+.sorteo-regala-text {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.8rem;
+  margin-bottom: 6px;
+}
+
+.sorteo-receptor {
+  color: #f9a8d4;
+  text-shadow: 0 0 10px rgba(249, 168, 212, 0.4);
+}
+
+/* ── RESPONSIVE TARJETAS ── */
+@media (max-width: 576px) {
+  .sorteo-card {
+    padding: 18px 12px;
+  }
+
+  .sorteo-santa {
+    width: 55px;
+    height: 55px;
+  }
+
+  .sorteo-regalito {
+    width: 42px;
+    height: 42px;
+  }
+
+  .sorteo-nombre {
+    font-size: 0.95rem;
+  }
+}

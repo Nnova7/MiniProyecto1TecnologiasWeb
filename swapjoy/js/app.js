@@ -493,73 +493,63 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 ////----------------------------------------------------------------------------------------------------------------
-//SORTEO
+// SORTEO
 ////----------------------------------------------------------------------------------------------------------------
-//Resumen del sorteo
+
 document.addEventListener("DOMContentLoaded", () => {
-  //Si no estamos en sorteo.html, no hacer nada
   if (!document.getElementById("mostrarFecha")) return;
+
   const swapjoy = JSON.parse(localStorage.getItem("swapjoy")) || {};
-  //Organizador
-  document.getElementById("mostrarOrganizador").textContent =
-    swapjoy.organizador || "-";
-  //nombre del evento
-  document.getElementById("mostrarNombreEvento").textContent =
-    swapjoy.evento?.nombre || "-";
-  //Tipo de evento
-  document.getElementById("mostrarTipo").textContent =
-    swapjoy.evento?.tipo || "-";
-  //Fecha
-  document.getElementById("mostrarFecha").textContent =
-    swapjoy.detalles?.fecha || "-";
-  //Presupuesto
+
+  // Resumen
+  document.getElementById("mostrarOrganizador").textContent = swapjoy.organizador || "-";
+  document.getElementById("mostrarNombreEvento").textContent = swapjoy.evento?.nombre || "-";
+  document.getElementById("mostrarTipo").textContent = swapjoy.evento?.tipo || "-";
+  document.getElementById("mostrarFecha").textContent = swapjoy.detalles?.fecha || "-";
   document.getElementById("mostrarPresupuesto").textContent =
-    swapjoy.detalles?.presupuesto || "-";
-  //exclusiones
+    swapjoy.detalles?.presupuesto ? `$${swapjoy.detalles.presupuesto} MXN` : "-";
+
+  // Exclusiones
   if (swapjoy.exclusiones && Object.keys(swapjoy.exclusiones).length > 0) {
-      let texto = "";
-      for (let persona in swapjoy.exclusiones) {
-          if (swapjoy.exclusiones[persona].length > 0) {
-            texto += `${persona} no puede tocar a: ${swapjoy.exclusiones[persona].join(", ")} | `;
-          }
+    let texto = "";
+    for (let persona in swapjoy.exclusiones) {
+      if (swapjoy.exclusiones[persona].length > 0) {
+        texto += `${persona} → ${swapjoy.exclusiones[persona].join(", ")} | `;
       }
-
-    document.getElementById("mostrarExclusiones").textContent = texto || "Sin exclusiones";
-
+    }
+    document.getElementById("mostrarExclusiones").textContent = texto.trim().replace(/\|$/, "") || "Sin exclusiones";
   } else {
-    document.getElementById("mostrarExclusiones").textContent =
-      "Sin exclusiones";
+    document.getElementById("mostrarExclusiones").textContent = "Sin exclusiones";
   }
 
-
-  //desactivar botón si ya hay sorteo
+  // Si ya hay resultados guardados
   if (swapjoy.resultados) {
     const boton = document.querySelector("button[onclick='realizarSorteo()']");
-    boton.disabled = true;
-    boton.textContent = "Sorteo ya realizado";
+    if (boton) {
+      boton.disabled = true;
+      boton.textContent = "Sorteo ya realizado";
+    }
     mostrarResultados(swapjoy.resultados);
   }
-
 });
 
-//Sorteo con las exlusiones
+// ── Realizar sorteo ──
 function realizarSorteo() {
-
   const swapjoy = JSON.parse(localStorage.getItem("swapjoy")) || {};
-  //Comprobar si ya se hizo antes para que ya no se pueda hacer
+
   if (swapjoy.resultados) {
     alert("El sorteo ya fue realizado.\n\nNo se puede repetir.");
-    //deshabilitar el botón
-    document.querySelector("button[onclick='realizarSorteo()']").disabled = true;
+    const boton = document.querySelector("button[onclick='realizarSorteo()']");
+    if (boton) boton.disabled = true;
     mostrarResultados(swapjoy.resultados);
     return;
   }
-  
+
   const participantes = swapjoy.participantes || [];
   const exclusiones = swapjoy.exclusiones || {};
 
   if (participantes.length < 2) {
-    alert("Se necesitan al menos 2 participantes.");
+    alert("Se necesitan al menos 2 participantes para realizar el sorteo.");
     return;
   }
 
@@ -568,7 +558,6 @@ function realizarSorteo() {
   let valido = false;
 
   while (!valido && intentos < 500) {
-
     intentos++;
     valido = true;
     asignaciones = {};
@@ -576,18 +565,9 @@ function realizarSorteo() {
     let disponibles = [...participantes];
 
     for (let persona of participantes) {
-
-      //Filtrar posibles personas válidas
       let posibles = disponibles.filter(p => {
-
-        //No puede regalarse a sí mismo
         if (p === persona) return false;
-
-        //Si tiene exclusiones
-        if (exclusiones[persona]) {
-          return !exclusiones[persona].includes(p);
-        }
-
+        if (exclusiones[persona]) return !exclusiones[persona].includes(p);
         return true;
       });
 
@@ -597,16 +577,13 @@ function realizarSorteo() {
       }
 
       let elegido = posibles[Math.floor(Math.random() * posibles.length)];
-
       asignaciones[persona] = elegido;
-
-      //Eliminar elegido de disponibles
       disponibles = disponibles.filter(p => p !== elegido);
     }
   }
 
   if (!valido) {
-    alert("No se pudo realizar el sorteo con las exclusiones actuales.");
+    alert("No se pudo realizar el sorteo con las exclusiones actuales.\n\nRevisa que no haya demasiadas restricciones.");
     return;
   }
 
@@ -615,20 +592,43 @@ function realizarSorteo() {
 
   console.log("Resultados del sorteo:", asignaciones);
 
+  // Deshabilitar botón
+  const boton = document.querySelector("button[onclick='realizarSorteo()']");
+  if (boton) {
+    boton.disabled = true;
+    boton.textContent = "Sorteo ya realizado";
+  }
+
+  // Alert con resumen antes de mostrar
+  const resumen = Object.entries(asignaciones)
+    .map(([p, r]) => `${p} → ${r}`)
+    .join("\n");
+  alert(`🎉 ¡Sorteo realizado con éxito!\n\n${resumen}`);
+
   mostrarResultados(asignaciones);
 }
 
-//Mostrarlo en pantalla
+// ── Mostrar tarjetas ──
 function mostrarResultados(asignaciones) {
   const contenedor = document.getElementById("resultadoSorteo");
-  contenedor.innerHTML = "";
-  for (let persona in asignaciones) {
-    contenedor.innerHTML += `
-      <div class="p-2 border rounded mb-2 bg-light text-dark">
-        <strong>${persona}</strong> le regala a 
-        <strong>${asignaciones[persona]}</strong>
-      </div>
-    `;
-  }
+  if (!contenedor) return;
+
+  contenedor.innerHTML = `
+    <h5 class="text-center fw-bold mb-4 resumen-titulo">
+      🎁 Resultados del Sorteo
+    </h5>
+    <div class="row g-3">
+      ${Object.entries(asignaciones).map(([persona, regalo]) => `
+        <div class="col-md-6 col-lg-4">
+          <div class="sorteo-card">
+            <img src="img/santa.png" class="sorteo-santa" alt="santa">
+            <div class="sorteo-nombre">${persona}</div>
+            <img src="img/regalito.png" class="sorteo-regalito" alt="regalo">
+            <div class="sorteo-regala-text">le regala a</div>
+            <div class="sorteo-nombre sorteo-receptor">${regalo}</div>
+          </div>
+        </div>
+      `).join("")}
+    </div>
+  `;
 }
-//hola
