@@ -468,6 +468,7 @@ document.addEventListener("DOMContentLoaded", () => {
       boton.textContent = "Sorteo ya realizado";
     }
     mostrarResultados(swapjoy.resultados);
+    return;
   }
 });
 
