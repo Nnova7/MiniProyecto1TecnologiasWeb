@@ -362,39 +362,6 @@ function guardarEvento(){
   window.location.href = "fechaPresupuesto.html";
 }
 
-//Si se regresa a otra página, guardar lo que ya se tenía
-document.addEventListener("DOMContentLoaded", () => {
-
-  if (!document.getElementById("tipoRegalo")) return;
-
-  const swapjoy = JSON.parse(localStorage.getItem("swapjoy")) || {};
-
-  if (!swapjoy.evento) return;
-
-  const tipoSelect = document.getElementById("tipoRegalo");
-  const nombreEventoInput = document.getElementById("nombreEvento");
-  const eventoPersonalizado = document.getElementById("eventoPersonalizado");
-  const container = document.getElementById("inputOtroContainer");
-
-  const tipoGuardado = swapjoy.evento.tipo;
-  const nombreGuardado = swapjoy.evento.nombre;
-
-  nombreEventoInput.value = nombreGuardado;
-
-  // Verificar si el tipo está dentro de las opciones del select
-  const opciones = Array.from(tipoSelect.options).map(opt => opt.value);
-
-  if (opciones.includes(tipoGuardado)) {
-    tipoSelect.value = tipoGuardado;
-  } else {
-    // Si no está en la lista, es un "Otro"
-    tipoSelect.value = "otro";
-    container.classList.remove("d-none");
-    eventoPersonalizado.value = tipoGuardado;
-  }
-
-});
-
 
 //----------------------------------------------------------------------------------------------------------------
 //FECHA Y PRESUPUESTO
@@ -461,35 +428,6 @@ function guardarFechaPresupuesto() {
   window.location.href = "sorteo.html";
 }
 
-//Si se regresa de página que se guarde lo seleccionado anteriormente
-document.addEventListener("DOMContentLoaded", () => {
-  //si esta pagina no tiene el input de fecha no hace nada
-  if (!document.getElementById("fechaEvento")) return;
-  //se recuperan datos guardados
-  const swapjoy = JSON.parse(localStorage.getItem("swapjoy")) || {};
-  if (!swapjoy.detalles) return;
-  //se obtienen referencias a los elementos
-  const fechaInput = document.getElementById("fechaEvento");
-  const presupuestoSelect = document.getElementById("presupuestoSelect");
-  const presupuestoPersonalizado = document.getElementById("presupuestoPersonalizado");
-  const container = document.getElementById("inputPresupuestoContainer");
-  //se rellena fecha guardada
-  fechaInput.value = swapjoy.detalles.fecha;
-  //opciones disponibles del select
-  const opciones = Array.from(presupuestoSelect.options).map(opt => opt.value);
-  //si el rpesupuesto es de los que ya estaban se selecciona directamente
-  if (opciones.includes(swapjoy.detalles.presupuesto)) {
-    presupuestoSelect.value = swapjoy.detalles.presupuesto;
-  } else {
-    //si no está ahí es porque es personalizado
-    presupuestoSelect.value = "otro";
-    //se muestra el input
-    container.classList.remove("d-none");
-    //se coloca el valor que se desea
-    presupuestoPersonalizado.value = swapjoy.detalles.presupuesto;
-  }
-
-});
 
 
 ////----------------------------------------------------------------------------------------------------------------
