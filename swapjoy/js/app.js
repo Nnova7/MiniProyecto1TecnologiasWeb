@@ -495,13 +495,12 @@ document.addEventListener("DOMContentLoaded", () => {
 ////----------------------------------------------------------------------------------------------------------------
 // SORTEO
 ////----------------------------------------------------------------------------------------------------------------
-
 document.addEventListener("DOMContentLoaded", () => {
   if (!document.getElementById("mostrarFecha")) return;
 
   const swapjoy = JSON.parse(localStorage.getItem("swapjoy")) || {};
 
-  // Resumen
+  //Resumen
   document.getElementById("mostrarOrganizador").textContent = swapjoy.organizador || "-";
   document.getElementById("mostrarNombreEvento").textContent = swapjoy.evento?.nombre || "-";
   document.getElementById("mostrarTipo").textContent = swapjoy.evento?.tipo || "-";
@@ -509,7 +508,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("mostrarPresupuesto").textContent =
     swapjoy.detalles?.presupuesto ? `$${swapjoy.detalles.presupuesto} MXN` : "-";
 
-  // Exclusiones
+  //Exclusiones
   if (swapjoy.exclusiones && Object.keys(swapjoy.exclusiones).length > 0) {
     let texto = "";
     for (let persona in swapjoy.exclusiones) {
@@ -522,7 +521,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("mostrarExclusiones").textContent = "Sin exclusiones";
   }
 
-  // Si ya hay resultados guardados
+  //Si ya hay resultados guardados
   if (swapjoy.resultados) {
     const boton = document.querySelector("button[onclick='realizarSorteo()']");
     if (boton) {
@@ -533,7 +532,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-// ── Realizar sorteo ──
+//Hacer sorteo
 function realizarSorteo() {
   const swapjoy = JSON.parse(localStorage.getItem("swapjoy")) || {};
 
@@ -603,7 +602,7 @@ function realizarSorteo() {
   const resumen = Object.entries(asignaciones)
     .map(([p, r]) => `${p} → ${r}`)
     .join("\n");
-  alert(`🎉 ¡Sorteo realizado con éxito!\n\n${resumen}`);
+  alert(`Sorteo realizado con éxito!\n\n${resumen}`);
 
   mostrarResultados(asignaciones);
 }
@@ -615,7 +614,7 @@ function mostrarResultados(asignaciones) {
 
   contenedor.innerHTML = `
     <h5 class="text-center fw-bold mb-4 resumen-titulo">
-      🎁 Resultados del Sorteo
+      Resultados del Sorteo
     </h5>
     <div class="row g-3">
       ${Object.entries(asignaciones).map(([persona, regalo]) => `
