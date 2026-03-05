@@ -7,10 +7,11 @@
     background: url("../img/fondoDos.jpg") no-repeat center center fixed;
     background-size: cover;
     padding-top: 75px; /* evita que la navbar tape el contenido */
+    min-height: 100vh;
 }
 
     html, body {
-        height: 100%;
+        min-height: 100%;
     }
 
     main {
@@ -35,7 +36,7 @@
 
     /* HERO */
     .hero {
-        height: 100vh;
+        min-height: 100vh;
         background: url("../img/fondoUno.jpg") no-repeat center center;
         background-size: cover;
         position: relative;
@@ -362,7 +363,7 @@
     }
 
     .footer-custom::before {
-        content: '🎁 🎄 🎀 🎉 ✨ 🎁 🎄 🎀 🎉 ✨ 🎁 🎄 🎀 🎉 ✨';
+        content: '🎁 🎄 🎀 ✨ 🎁 🎄 🎀 ✨ 🎁 🎄 🎀 ✨';
         position: absolute;
         top: -20px;
         left: 0;
