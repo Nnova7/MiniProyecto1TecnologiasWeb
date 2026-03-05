@@ -75,6 +75,8 @@
                             <input type="date"
                                    id="fechaEvento"
                                    class="form-control custom-input">
+                            <!-- Fechas sugeridas -->
+                            <div id="fechasSugeridas" class="d-flex flex-wrap justify-content-center gap-2 mt-2"></div>
                         </div>
 
                         <!-- PRESUPUESTO -->
@@ -89,11 +91,11 @@
                                 <option value="300">$300</option>
                                 <option value="500">$500</option>
                                 <option value="1000">$1000</option>
-                                <option value="otro">Otro...</option>
+                                <option value="otro">Ingresar presupuesto...</option>
                             </select>
                         </div>
 
-                        <!-- INPUT DINÁMICO -->
+                        <!-- Input dinámico para el presupuesto que se desea -->
                         <div class="mb-4 d-none" id="inputPresupuestoContainer">
                             <input type="number"
                                    id="presupuestoPersonalizado"

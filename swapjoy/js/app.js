@@ -390,6 +390,43 @@ function mostrarInputPresupuesto() {
   }
 }
 
+function generarFechasSugeridas() {
+
+  const contenedor = document.getElementById("fechasSugeridas");
+  const inputFecha = document.getElementById("fechaEvento");
+
+  const hoy = new Date();
+
+  for (let i = 1; i <= 5; i++) {
+
+    let fecha = new Date();
+    fecha.setDate(hoy.getDate() + i);
+
+    //formato para el input (YYYY-MM-DD)
+    const fechaInput = fecha.toISOString().split("T")[0];
+
+    //formato bonito para mostrar
+    const fechaTexto = fecha.toLocaleDateString("es-MX", {
+      day: "numeric",
+      month: "long",
+      year: "numeric"
+    });
+
+    const boton = document.createElement("button");
+    boton.className = "btn btn-outline-warning btn-sm";
+    boton.textContent = fechaTexto;
+
+    boton.onclick = function () {
+      inputFecha.value = fechaInput;
+    };
+
+    contenedor.appendChild(boton);
+  }
+}
+
+//ejecutar cuando cargue la página
+window.onload = generarFechasSugeridas;
+
 //Guardar fecha y presupyesto
 function guardarFechaPresupuesto() {
   //se obtiene el valor de la fecha
