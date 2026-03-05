@@ -592,3 +592,128 @@ function confirmarReinicio(){
   }
 
 }
+
+
+
+// -------------------------------------------------------------------------------------------------------------------------
+// DRAG AND DROP GATO
+// -------------------------------------------------------------------------------------------------------------------------
+document.addEventListener("DOMContentLoaded", () => {
+    // Se obtienen las imágenes del HTML por su id
+    const gato = document.getElementById("gatoArrastrable");
+    const disfraz = document.getElementById("disfrazZona");
+
+    // Si no existen en la página, no hacer nada (para que no truene en otros htmls)
+    if (!gato || !disfraz) return;
+
+    // Cuando el usuario empieza a arrastrar el gato
+    gato.addEventListener("dragstart", (e) => {
+        // Se guarda el dato que se está arrastrando
+        e.dataTransfer.setData("text/plain", "gato");
+        // Se le agrega la clase para que se vea semitransparente mientras se arrastra
+        gato.classList.add("gato-arrastrando");
+    });
+
+    // Cuando el usuario suelta el gato en cualquier parte
+    gato.addEventListener("dragend", (e) => {
+        // Se quita el efecto de arrastre
+        gato.classList.remove("gato-arrastrando");
+
+        // Se calcula la posición donde se soltó dentro del hero
+        // y se posiciona el gato centrado en ese punto
+        const heroRect = gato.closest(".hero").getBoundingClientRect();
+        gato.style.left = (e.clientX - heroRect.left - gato.offsetWidth / 2) + "px";
+        gato.style.top = (e.clientY - heroRect.top - gato.offsetHeight / 2) + "px";
+        gato.style.transform = "none";
+    });
+
+    // Cuando el gato pasa encima del disfraz, se permite el drop
+    disfraz.addEventListener("dragover", (e) => {
+        // Sin esto no funciona el drop
+        e.preventDefault();
+        // Se agrega clase para que el disfraz brille como indicador
+        disfraz.classList.add("disfraz-hover");
+    });
+
+    // Cuando el gato sale del área del disfraz sin soltarse
+    disfraz.addEventListener("dragleave", () => {
+        // Se quita el brillo del disfraz
+        disfraz.classList.remove("disfraz-hover");
+    });
+
+    // Cuando el gato se suelta encima del disfraz
+    disfraz.addEventListener("drop", (e) => {
+        e.preventDefault();
+        // Se quita el brillo del disfraz
+        disfraz.classList.remove("disfraz-hover");
+
+        // El disfraz desaparece
+        disfraz.style.display = "none";
+
+        // El gato cambia a gato2 y regresa a su posición original izquierda
+        gato.src = "img/gato2.png";
+        gato.style.left = "20px";
+        gato.style.top = "50%";
+        gato.style.transform = "translateY(-50%)";
+        // Se marca como transformado para saber que ya es gato2
+        gato.classList.add("gato-transformado");
+    });
+
+    // ── TOUCH SUPPORT PARA MÓVIL ──
+    // Variables para controlar si se está tocando y el offset del dedo
+    let tocando = false;
+    let offsetX, offsetY;
+
+    // Cuando el usuario toca el gato en móvil
+    gato.addEventListener("touchstart", (e) => {
+        tocando = true;
+        const touch = e.touches[0];
+        const rect = gato.getBoundingClientRect();
+        // Se guarda la distancia entre el dedo y la esquina del gato
+        offsetX = touch.clientX - rect.left;
+        offsetY = touch.clientY - rect.top;
+        gato.classList.add("gato-arrastrando");
+    }, { passive: true });
+
+    // Cuando el usuario mueve el dedo en móvil
+    document.addEventListener("touchmove", (e) => {
+        // Si no está tocando el gato, no hacer nada
+        if (!tocando) return;
+        const touch = e.touches[0];
+        const heroRect = gato.closest(".hero").getBoundingClientRect();
+        // Se mueve el gato siguiendo el dedo con el offset calculado
+        gato.style.left = (touch.clientX - heroRect.left - offsetX) + "px";
+        gato.style.top = (touch.clientY - heroRect.top - offsetY) + "px";
+        gato.style.transform = "none";
+    }, { passive: true });
+
+    // Cuando el usuario levanta el dedo en móvil
+    document.addEventListener("touchend", (e) => {
+        if (!tocando) return;
+        tocando = false;
+        gato.classList.remove("gato-arrastrando");
+
+        const touch = e.changedTouches[0];
+        // Se obtiene el área del disfraz para verificar si cayó encima
+        const disfrazRect = disfraz.getBoundingClientRect();
+
+        // Se verifica si el dedo se levantó dentro del área del disfraz
+        if (
+            touch.clientX >= disfrazRect.left &&
+            touch.clientX <= disfrazRect.right &&
+            touch.clientY >= disfrazRect.top &&
+            touch.clientY <= disfrazRect.bottom
+        ) {
+            // El disfraz desaparece
+            disfraz.style.display = "none";
+
+            // El gato cambia a gato2 y regresa a posición original izquierda
+            gato.src = "img/gato2.png";
+            gato.style.left = "20px";
+            gato.style.top = "50%";
+            gato.style.transform = "translateY(-50%)";
+            gato.classList.add("gato-transformado");
+        }
+        // Si no cayó en el disfraz, se queda donde está
+    });
+});
