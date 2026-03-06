@@ -1,21 +1,23 @@
-    body {
+   /* DESPUÉS — pon esto: */
+html {
+    height: 100%;
+}
+
+body {
     font-family: 'Segoe UI', sans-serif;
     scroll-behavior: smooth;
     overflow-x: hidden;
     display: flex;
     flex-direction: column;
+    min-height: 100vh;
     background: url("../img/fondoDos.jpg") no-repeat center center fixed;
     background-size: cover;
-    padding-top: 75px; /* evita que la navbar tape el contenido */
+    padding-top: 75px;
 }
 
-    html, body {
-        height: 100%;
-    }
-
-    main {
-        flex: 1;
-    }
+main {
+    flex: 1;
+}
 
     /* NAVBAR - MÁS TRANSPARENTE */
     .custom-nav {
@@ -359,6 +361,7 @@
         border-top: 10px solid #480000;
         position: relative;
         overflow: hidden;
+        
     }
 
     .footer-custom::before {
