@@ -55,11 +55,17 @@ function guardarOrganizador() {
     console.log("Organizador guardado correctamente:", swapjoy);
 
   //alerta de guardado
-    alert(`Organizador "${nombre}" guardado correctamente.`);
-
-  //siguiente pantalla
-    window.location.href = "participantes.html";
-}
+    Swal.fire({
+      icon: "success",
+      title: "Organizador guardado",
+      text: `El organizador "${nombre}" fue guardado correctamente.`,
+      confirmButtonColor: "#f59e0b",
+      confirmButtonText: "Continuar"
+    }).then(() => {
+      //A la otra página
+      window.location.href = "participantes.html";
+    });
+    }
 
 // -------------------------------------------------------------------------------------------------------------------------
 // PARTICIPANTES
@@ -116,8 +122,14 @@ function eliminarParticipante(index) {
 
   //no dejar eliminar al organizador si participa por las dudas
     if (swapjoy.organizadorParticipa && eliminado === swapjoy.organizador) {
-    alert("El organizador participa en el sorteo y no puede ser eliminado aquí.");
-    return;
+      Swal.fire({
+        icon: "warning",
+        title: "No se puede eliminar",
+        text: "El organizador participa en el sorteo y no puede ser eliminado.",
+        confirmButtonColor: "#f59e0b",
+        confirmButtonText: "Entendido"
+      });
+      return;
     }
 
     participantes.splice(index, 1);
@@ -161,14 +173,32 @@ function continuarParticipantes() {
     const participantes = swapjoy.participantes || [];
 
     if (participantes.length < 2) {
-    alert("Necesitas agregar al menos 2 participantes para continuar.");
-    return;
+      Swal.fire({
+        icon: "warning",
+        title: "Faltan participantes",
+        text: "Necesitas agregar al menos 2 participantes para continuar.",
+        confirmButtonColor: "#f59e0b",
+        confirmButtonText: "Entendido"
+      });
+      return;
     }
 
     const nombres = participantes.join(", ");
-    alert(` ¡Listo!\n\n Participantes registrados (${participantes.length}):\n${nombres}\n\nVamos a configurar las exclusiones.`);
 
-    window.location.href = "preguntaExlusiones.html";
+    Swal.fire({
+      icon: "success",
+      title: "¡Participantes listos!",
+      html: `
+        <p><b>${participantes.length}</b> participantes registrados:</p>
+        <p>${nombres}</p>
+        <br>
+        <p>Ahora vamos a configurar las exclusiones.</p>
+      `,
+      confirmButtonColor: "#f59e0b",
+      confirmButtonText: "Continuar"
+    }).then(() => {
+      window.location.href = "preguntaExlusiones.html";
+    });
 }
 
 //agregar con Enter
@@ -193,9 +223,15 @@ function sinExclusiones() {
 
   console.log("Sin exclusiones");
 
-  alert("Sin exclusiones.\n\n¡Todos pueden regalarle a cualquier persona!");
-
-  window.location.href = "evento.html";
+  Swal.fire({
+    icon: "info",
+    title: "Sin exclusiones",
+    text: "Todos los participantes podrán regalarle a cualquier persona.",
+    confirmButtonColor: "#f59e0b",
+    confirmButtonText: "Continuar"
+  }).then(() => {
+    window.location.href = "evento.html";
+  });
 }
 
 function irAExclusiones() {
@@ -205,9 +241,15 @@ function irAExclusiones() {
 
   console.log("Usuario desea realizar exclusiones");
 
-  alert("Se aplicarán exclusiones.");
-
-  window.location.href = "exclusiones.html";
+  Swal.fire({
+    icon: "info",
+    title: "Configurar exclusiones",
+    text: "Ahora podrás elegir qué personas no pueden regalarse entre sí.",
+    confirmButtonColor: "#f59e0b",
+    confirmButtonText: "Continuar"
+  }).then(() => {
+    window.location.href = "exclusiones.html";
+  });
 }
 
 // -----------------------------------------------------------------------------------------------------------------------------------
@@ -304,10 +346,18 @@ function guardarExclusiones() {
   console.log(" Exclusiones guardadas:", swapjoy.exclusiones);
 
   //resumen en alert
-  if (seleccionados.length === 0) {
-    alert(` ${nombreSeleccionado} no tiene exclusiones.\n\n¡Puede regalarle a cualquiera!`);
-  } else {
-    alert(` Exclusiones de ${nombreSeleccionado} guardadas:\n\n No puede tocar a: ${seleccionados.join(", ")}`);
+  if (seleccionados.length === 0){
+    Swal.fire({
+      icon: "info",
+      title: nombreSeleccionado,
+      text: "No tiene exclusiones. ¡Puede regalarle a cualquiera!"
+    });
+  }else{
+    Swal.fire({
+      icon: "success",
+      title: `Exclusiones de ${nombreSeleccionado} guardadas`,
+      html: `No puede tocar a:<br><b>${seleccionados.join(", ")}</b>`
+    });
   }
 }
 
@@ -339,22 +389,34 @@ function guardarEvento(){
   let tipoEvento = tipoSelect.value;
   let nombreEvento = nombreEventoInput.value.trim();
 
-  if (!tipoEvento) {
-    alert("Selecciona un tipo de evento.");
+  if (!tipoEvento){
+    Swal.fire({
+      icon: "warning",
+      title: "Falta información",
+      text: "Selecciona un tipo de evento."
+    });
     return;
   }
 
-  // Si eligió Otro
-  if (tipoEvento === "otro") {
+  //Si eligió Otro
+  if (tipoEvento === "otro"){
     if (!eventoPersonalizado.value.trim()) {
-      alert("Escribe el tipo de evento personalizado.");
+      Swal.fire({
+        icon: "warning",
+        title: "Falta información",
+        text: "Escribe el tipo de evento personalizado."
+      });
       return;
     }
     tipoEvento = eventoPersonalizado.value.trim();
   }
 
-  if (!nombreEvento) {
-    alert("Escribe un nombre para el intercambio.");
+  if (!nombreEvento){
+    Swal.fire({
+      icon: "warning",
+      title: "Nombre del intercambio",
+      text: "Escribe un nombre para el intercambio."
+    });
     return;
   }
 
@@ -367,7 +429,16 @@ function guardarEvento(){
 
   localStorage.setItem("swapjoy", JSON.stringify(swapjoy));
   console.log("Evento guardado:", swapjoy.evento);
-  window.location.href = "fechaPresupuesto.html";
+  //Alert de éxito antes de redirigir
+  Swal.fire({
+    icon: "success",
+    title: "¡Guardado!",
+    html: `Tipo de evento: <strong>${tipoEvento}</strong><br>Nombre del intercambio: <strong>${nombreEvento}</strong>`,
+    confirmButtonColor: '#f59e0b',
+    confirmButtonText: 'Continuar'
+  }).then(() => {
+    window.location.href = "fechaPresupuesto.html";
+  });
 }
 
 
@@ -391,19 +462,49 @@ function mostrarInputPresupuesto() {
 }
 
 function generarFechasSugeridas() {
-
   const contenedor = document.getElementById("fechasSugeridas");
   const inputFecha = document.getElementById("fechaEvento");
+
+  if (!inputFecha || !contenedor) return; // Evita errores si no existen
+
+  inputFecha.setAttribute("draggable", true);
+
+  //Permite sacar la fecha del input
+  inputFecha.addEventListener("dragstart", (e)=>{
+    if(inputFecha.value){
+      e.dataTransfer.setData("fecha", inputFecha.value);
+    }
+  });
+
+  inputFecha.addEventListener("dragover", (e) => {
+    e.preventDefault();
+  });
+
+  inputFecha.addEventListener("drop", (e) => {
+    e.preventDefault();
+    const fecha = e.dataTransfer.getData("fecha");
+    if (fecha) {
+      inputFecha.value = fecha;
+    }
+    //eliminar el botón del contenedor
+    if (window.botonArrastrado) {
+      window.botonArrastrado.remove();
+      window.botonArrastrado = null;
+    }
+  });
 
   const hoy = new Date();
 
   for (let i = 1; i <= 5; i++) {
-
     let fecha = new Date();
     fecha.setDate(hoy.getDate() + i);
 
-    //formato para el input (YYYY-MM-DD)
-    const fechaInput = fecha.toISOString().split("T")[0];
+    //Obtener año, mes y día local
+    const year = fecha.getFullYear();
+    const month = String(fecha.getMonth() + 1).padStart(2, '0'); // enero = 0
+    const day = String(fecha.getDate()).padStart(2, '0');
+
+    const fechaInput = `${year}-${month}-${day}`; // YYYY-MM-DD
 
     //formato bonito para mostrar
     const fechaTexto = fecha.toLocaleDateString("es-MX", {
@@ -416,16 +517,93 @@ function generarFechasSugeridas() {
     boton.className = "btn btn-outline-warning btn-sm";
     boton.textContent = fechaTexto;
 
+    //activar drag
+    boton.setAttribute("draggable", true);
+
+    //cuando empieza el arrastre
+    boton.addEventListener("dragstart", (e) => {
+      e.dataTransfer.setData("fecha", fechaInput);
+      //guardar el botón que se está arrastrando
+      window.botonArrastrado = boton;
+      //efecto en la opacidad del botón
+      boton.style.opacity = "0.5"; 
+    });
+
+    boton.addEventListener("dragend", () => {
+      boton.style.opacity = "1";
+    });
+
     boton.onclick = function () {
       inputFecha.value = fechaInput;
     };
 
     contenedor.appendChild(boton);
   }
+
+  //Permitir regresar la fecha al contenedor
+  contenedor.addEventListener("dragover", (e)=>{
+    e.preventDefault();
+  });
+
+  contenedor.addEventListener("drop", (e)=>{
+    e.preventDefault();
+
+    const fecha = e.dataTransfer.getData("fecha");
+
+    if(fecha){
+
+      //Validar duplicados
+      const botones = contenedor.querySelectorAll("button");
+      for (let b of botones){
+        if (b.dataset.fecha === fecha){
+          Swal.fire({
+            icon: "warning",
+            title: "Fecha repetida",
+            text: "Esa fecha ya está en la lista."
+          });
+          return;
+        }
+      }
+
+      //Evitar problemas con zona horaria
+      const partes = fecha.split("-");
+      const fechaObjeto = new Date(partes[0], partes[1] - 1, partes[2]);
+
+      const fechaTexto = fechaObjeto.toLocaleDateString("es-MX", {
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+      });
+
+      const boton = document.createElement("button");
+      boton.className = "btn btn-outline-warning btn-sm";
+      boton.textContent = fechaTexto;
+      boton.draggable = true;
+      boton.dataset.fecha = fecha;
+
+      //volver a activar drag
+      boton.addEventListener("dragstart", (e)=>{
+        e.dataTransfer.setData("fecha", fecha);
+        window.botonArrastrado = boton;
+        boton.style.opacity = "0.5";
+      });
+
+      boton.addEventListener("dragend", ()=>{
+        boton.style.opacity = "1";
+      });
+
+      contenedor.appendChild(boton);
+
+      //limpiar input
+      inputFecha.value = "";
+    }
+  });
 }
 
 //ejecutar cuando cargue la página
-window.onload = generarFechasSugeridas;
+window.onload = () => {
+  generarFechasSugeridas();
+};
 
 //Guardar fecha y presupyesto
 function guardarFechaPresupuesto() {
@@ -441,18 +619,31 @@ function guardarFechaPresupuesto() {
 
   //Validar que si haya fecha seleccionada
   if (!fecha) {
-    alert("Selecciona una fecha para el intercambio.");
+    Swal.fire({
+      icon: "warning",
+      title: "Falta la fecha",
+      text: "Selecciona una fecha para el intercambio."
+    });
     return;
   }
   //validar presupuesto seleccionado y que no este vacío
-  if (!presupuesto) {
-    alert("Selecciona un presupuesto.");
+  if (!presupuesto){
+    Swal.fire({
+      icon: "warning",
+      title: "Selecciona un presupuesto",
+      text: "Debes elegir un presupuesto para el intercambio."
+    });
     return;
   }
   //Si eligió "Otro"
   if (presupuesto === "otro") {
     if (!presupuestoPersonalizado.value || presupuestoPersonalizado.value <= 0) {
-      alert("Escribe una cantidad válida.");
+      Swal.fire({
+        icon: "error",
+        title: "Cantidad inválida",
+        text: "Escribe una cantidad válida para el presupuesto.",
+        confirmButtonColor: "#f59e0b"
+      });
       return;
     }
     //se reemplaza el valor del presupuesto por el personalizado
@@ -469,8 +660,14 @@ function guardarFechaPresupuesto() {
   localStorage.setItem("swapjoy", JSON.stringify(swapjoy));
   //se muestra en consola
   console.log("Fecha y presupuesto guardados:", swapjoy.detalles);
-  alert("Fecha y presupuesto guardados correctamente.");
-  window.location.href = "sorteo.html";
+  Swal.fire({
+    icon: "success",
+    title: "¡Datos guardados!",
+    text: "La fecha y el presupuesto se guardaron correctamente.",
+    confirmButtonColor: "#f59e0b"
+  }).then(() => {
+    window.location.href = "sorteo.html";
+  });
 }
 
 
@@ -533,8 +730,13 @@ function realizarSorteo() {
   const participantes = swapjoy.participantes || [];
   const exclusiones = swapjoy.exclusiones || {};
 
-  if (participantes.length < 2) {
-    alert("Se necesitan al menos 2 participantes para realizar el sorteo.");
+  if (participantes.length < 2){
+    Swal.fire({
+      icon: "warning",
+      title: "Faltan participantes",
+      text: "Se necesitan al menos 2 participantes para realizar el sorteo.",
+      confirmButtonColor: "#f59e0b"
+    });
     return;
   }
 
@@ -567,8 +769,13 @@ function realizarSorteo() {
     }
   }
 
-  if (!valido) {
-    alert("No se pudo realizar el sorteo con las exclusiones actuales.\n\nRevisa que no haya demasiadas restricciones.");
+  if (!valido){
+    Swal.fire({
+      icon: "error",
+      title: "Sorteo fallido",
+      html: "No se pudo realizar el sorteo con las exclusiones actuales.<br><br>Revisa que no haya demasiadas restricciones.",
+      confirmButtonColor: "#f59e0b"
+    });
     return;
   }
 
@@ -587,10 +794,19 @@ function realizarSorteo() {
   //Alert con resumen antes de mostrar
   const resumen = Object.entries(asignaciones)
     .map(([p, r]) => `${p} → ${r}`)
-    .join("\n");
-  alert(`Sorteo realizado con éxito!\n\n${resumen}`);
+    .join("<br>"); // usar <br> en lugar de \n para HTML
 
-  mostrarResultados(asignaciones);
+  Swal.fire({
+    icon: "success",
+    title: "🎉 Sorteo realizado con éxito!",
+    html: `<div style="text-align: left;">${resumen}</div>`,
+    confirmButtonColor: "#f59e0b",
+    width: "400px",
+    scrollbarPadding: false
+  }).then(() => {
+    // Mostrar las tarjetas del sorteo después de cerrar el SweetAlert
+    mostrarResultados(asignaciones);
+  });
 }
 
 //Mostrar tarjetas 
@@ -619,15 +835,24 @@ function mostrarResultados(asignaciones) {
 }
 
 //Al momento de dar click en volvera a inicio si así lo desea se borrará lo anterior
-function confirmarReinicio(){
-  let confirmar = confirm("¿Deseas reiniciar el intercambio?\n\nSe borrarán todos los datos del sorteo.");
-  if(confirmar){
+function confirmarReinicio() {
+  Swal.fire({
+    title: '¿Deseas reiniciar el intercambio?',
+    html: 'Se borrarán todos los datos del sorteo.',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Sí, reiniciar',
+    cancelButtonText: 'Cancelar',
+    confirmButtonColor: '#f59e0b',
+    cancelButtonColor: '#6b7280'
+  }).then((result) => {
+    if (result.isConfirmed) {
       localStorage.removeItem("swapjoy");
-      return true; //se irá al inicio
-  }else{
-      return false; //se queda ahí
-  }
-
+      window.location.href = "index.html";
+    } else {
+      console.log("El usuario canceló el reinicio");
+    }
+  });
 }
 
 
@@ -696,6 +921,4 @@ document.addEventListener("DOMContentLoaded", () => {
         // Se marca como transformado para saber que ya es gato2
         gato.classList.add("gato-transformado");
     });
-
-    
 });
