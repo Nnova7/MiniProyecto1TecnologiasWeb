@@ -10,7 +10,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background: url("../img/fondoDos.jpg") no-repeat center center fixed;
+    background: url("../img/FondoDos.jpg") no-repeat center center fixed;
     background-size: cover;
     padding-top: 75px;
 }
@@ -38,7 +38,7 @@ main {
     /* HERO */
     .hero {
         min-height: 100vh;
-        background: url("../img/fondoUno.jpg") no-repeat center center;
+        background: url("../img/FondoUno.jpg") no-repeat center center;
         background-size: cover;
         position: relative;
     }
