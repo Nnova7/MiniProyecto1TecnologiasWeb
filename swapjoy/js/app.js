@@ -798,7 +798,7 @@ function realizarSorteo() {
 
   Swal.fire({
     icon: "success",
-    title: "🎉 Sorteo realizado con éxito!",
+    title: "Sorteo realizado con éxito!",
     html: `<div style="text-align: left;">${resumen}</div>`,
     confirmButtonColor: "#f59e0b",
     width: "400px",
