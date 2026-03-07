@@ -712,6 +712,10 @@ document.addEventListener("DOMContentLoaded", () => {
     mostrarResultados(swapjoy.resultados);
     return;
   }
+
+  //Imprimir todo el resumen completo en consola
+  console.log("Resumen completo del intercambio");
+  console.log(JSON.stringify(swapjoy, null, 2));
 });
 
 //Hacer sorteo
